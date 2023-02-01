@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { PDFDocument } from "pdf-lib";
+import { writeDummyData } from "./utils";
 
 /**
  * Add user built dimensions, via the canvas of the `react-pdf`
@@ -46,10 +47,8 @@ async function load(): Promise<PDFDocument> {
     res.arrayBuffer()
   );
   const doc = await PDFDocument.load(arrayBuffer);
-  const page = doc.getPage(0);
-  page.moveTo(50, 650);
-  page.drawText("The Life of an Egg", { size: 18 });
-  return doc;
+  const writtenInDoc = await writeDummyData(doc);
+  return writtenInDoc;
 }
 
 function saveByteArray(reportName: string, byte: Uint8Array) {
