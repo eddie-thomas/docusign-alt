@@ -1,7 +1,7 @@
 {
   "env": {
     "browser": true,
-    "es2021": true
+    "es2022": true
   },
   "extends": [
     "eslint:recommended",
@@ -15,7 +15,9 @@
     "sourceType": "module"
   },
   "plugins": ["react", "@typescript-eslint"],
-  "rules": {},
+  "rules": {
+    "react/react-in-jsx-scope": "off"
+  },
   "settings": {
     "react": {
       "version": "detect"
