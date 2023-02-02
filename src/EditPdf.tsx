@@ -3,11 +3,9 @@ import { PDFDocument } from "pdf-lib";
 import { writeDummyData } from "./utils";
 
 /**
- * Add user built dimensions, via the canvas of the `react-pdf`
  *
- * https://stackoverflow.com/questions/65376480/let-users-draw-rectangles-with-mouse-in-canvas-with-javascript
+ * @returns JSX.Element
  */
-
 function EditPdf() {
   const [doc, setDoc] = useState<PDFDocument>();
   const [loading, setLoading] = useState<boolean>(false);
@@ -42,6 +40,10 @@ function EditPdf() {
   );
 }
 
+/**
+ *
+ * @returns Promise<PDFDocument>
+ */
 async function load(): Promise<PDFDocument> {
   const arrayBuffer = await fetch("/pdf/waiver.pdf").then((res) =>
     res.arrayBuffer()

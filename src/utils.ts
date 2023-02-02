@@ -9,6 +9,26 @@ interface FieldCoordinates {
   [fieldIdentifier: string]: Array<Coordinate>;
 }
 
+const TEMP_DUMMY: { [key: string]: string } = {
+  age: "25",
+  location: "Named Location",
+  owner_signature: "Rayvon Solomon",
+  email: "k.edwardthom@gmail.com",
+  concat_all_full_names_of_minors: "",
+  date: new Date().toLocaleDateString(),
+  full_name: "Edward K Thomas Jr",
+  signature: "Edward K Thomas Jr",
+  date_of_birth: new Date("07/01/1998").toLocaleDateString(),
+  phone_number: "970-000-0000",
+  address: "123 N College Ave.",
+  city: "Fort Collins",
+  state: "Colorado",
+  zip: "80655",
+  minor_full_name: "",
+  minor_birthday: "",
+  minor_relation_to_user: "",
+};
+
 function addClickEventToCanvas(e: React.MouseEvent, page: number) {
   const mouseX = e.pageX;
   const mouseY = 792 - e.pageY;
@@ -88,27 +108,11 @@ const FIELD_COORDINATES: FieldCoordinates = {
   ],
 };
 
-async function writeDummyData(pdf: PDFDocument): Promise<PDFDocument> {
+async function writeDummyData(
+  pdf: PDFDocument,
+  dummy = TEMP_DUMMY
+): Promise<PDFDocument> {
   const signatureFont = await pdf.embedFont(StandardFonts.TimesRomanItalic);
-  const dummy: { [key: string]: string } = {
-    age: "25",
-    location: "Named Location",
-    owner_signature: "Rayvon Solomon",
-    email: "k.edwardthom@gmail.com",
-    concat_all_full_names_of_minors: "",
-    date: new Date().toLocaleDateString(),
-    full_name: "Edward K Thomas Jr",
-    signature: "Edward K Thomas Jr",
-    date_of_birth: new Date("07/01/1998").toLocaleDateString(),
-    phone_number: "970-000-0000",
-    address: "123 N College Ave.",
-    city: "Fort Collins",
-    state: "Colorado",
-    zip: "80655",
-    minor_full_name: "",
-    minor_birthday: "",
-    minor_relation_to_user: "",
-  };
   Object.entries(FIELD_COORDINATES).forEach(
     ([fieldIdentifier, coordinates]) => {
       const defaultValue = dummy[fieldIdentifier];
