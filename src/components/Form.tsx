@@ -200,7 +200,7 @@ function Fields({ onFieldStateChange }: FieldsProps) {
           return data.renderFieldInPDF;
         })
         .map(([key, data]) => {
-          const [value, setValue] = useState<string>();
+          const [value, setValue] = useState<string>("");
           const properties = data as UserFieldProperties;
 
           /**

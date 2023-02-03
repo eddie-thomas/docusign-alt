@@ -44,3 +44,11 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+- Location, allow Ray a queue so he can go in and sign and fill out location (Signature)
+
+- Page 6 first one is not signature
+
+If there are minors, get that in, otherwise do not show
+
+- Page 7 and 8 minors
