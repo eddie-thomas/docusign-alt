@@ -39,7 +39,7 @@ function formatPhoneNumber(phoneNumberString: string) {
  * @returns Promise<PDFDocument>
  */
 async function loadPdf(): Promise<PDFDocument> {
-  const arrayBuffer = await fetch("/pdf/waiver.pdf").then((res) =>
+  const arrayBuffer = await fetch("/docusign-alt/pdf/waiver.pdf").then((res) =>
     res.arrayBuffer()
   );
   const doc = await PDFDocument.load(arrayBuffer);
