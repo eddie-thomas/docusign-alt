@@ -2,11 +2,13 @@ import { type ChangeEvent, useEffect, useState, memo } from "react";
 import {
   Box,
   Button,
+  Divider,
   Paper,
   styled,
   TextField,
   Typography,
 } from "@mui/material";
+import { useSnackbar } from "notistack";
 
 import {
   formatPhoneNumber,
@@ -52,6 +54,7 @@ export default function Form() {
   const [loading, setLoading] = useState<LoadingStatus>(
     LoadingStatus.Unfulfilled
   );
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   /**
    *
@@ -86,13 +89,23 @@ export default function Form() {
           return true;
         }
         throw Error(
-          "A field should displayed to the user should not have its data auto generated."
+          "A required field displayed to the user should not have its data auto generated."
         );
       }
     );
 
-    if (!verifiedFields) return;
-    console.log(verifiedFields);
+    if (!verifiedFields) {
+      const id = enqueueSnackbar("Please fill out every field!", {
+        variant: "error",
+        onClick: () => closeSnackbar(id),
+      });
+      return;
+    }
+
+    const id = enqueueSnackbar("Generating PDF...", {
+      variant: "info",
+      onClick: () => closeSnackbar(id),
+    });
 
     const pdfDoc = await loadPdf();
     const writtenPdf = await writeDataToPdf({
@@ -101,6 +114,10 @@ export default function Form() {
       fieldState: fieldState,
     });
     const pdfBytes = await writtenPdf.save();
+    const success = enqueueSnackbar("Successfully created PDF!", {
+      variant: "success",
+      onClick: () => closeSnackbar(success),
+    });
     if (pdfBytes) saveByteArray(`Mr_Wet_Jet_Waiver.pdf`, pdfBytes);
   };
 
@@ -117,8 +134,16 @@ export default function Form() {
         );
 
         setFieldState(fieldStateObj);
+        const id = enqueueSnackbar("Successfully loaded field data.", {
+          variant: "success",
+          onClick: () => closeSnackbar(id),
+        });
       } catch (e) {
         console.warn(e);
+        const id = enqueueSnackbar("Failed to load field data.", {
+          variant: "error",
+          onClick: () => closeSnackbar(id),
+        });
       } finally {
         setLoading(LoadingStatus.Fulfilled);
       }
@@ -132,8 +157,9 @@ export default function Form() {
   return (
     <StyledPaper>
       <Typography textAlign="center" variant="h4">
-        Waiver Form
+        Mr. Wet Jet Waiver
       </Typography>
+      <Divider sx={{ m: 3 }} />
 
       {loading === LoadingStatus.Fulfilled ? (
         <PureFields onFieldStateChange={handleFieldStateChange} />

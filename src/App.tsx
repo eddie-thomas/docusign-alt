@@ -11,6 +11,7 @@ import {
   Typography,
   Switch,
 } from "@mui/material";
+import { SnackbarProvider, useSnackbar } from "notistack";
 import MenuIcon from "@mui/icons-material/Menu";
 
 import DialogDisclaimer from "./components/DialogDisclaimer";
@@ -44,9 +45,11 @@ export default function App() {
   return (
     <ThemeProvider theme={THEME}>
       <CssBaseline />
-      <DialogDisclaimer />
-      <Header mode={mode} onLightingChange={handleLightingChange} />
-      <Body />
+      <SnackbarProvider maxSnack={3}>
+        <DialogDisclaimer />
+        <Header mode={mode} onLightingChange={handleLightingChange} />
+        <Body />
+      </SnackbarProvider>
     </ThemeProvider>
   );
 }
@@ -77,6 +80,7 @@ function Header({
   mode: "dark" | "light";
   onLightingChange: (_: ChangeEvent, checked: boolean) => void;
 }) {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   return (
     <>
       <AppBar>
@@ -84,8 +88,12 @@ function Header({
           <IconButton
             edge="start"
             color="inherit"
-            aria-label="menu"
             sx={{ mr: 2 }}
+            onClick={() => {
+              const id = enqueueSnackbar("Not implemented yet.", {
+                onClick: () => closeSnackbar(id),
+              });
+            }}
           >
             <MenuIcon />
           </IconButton>
