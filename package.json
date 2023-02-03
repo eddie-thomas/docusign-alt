@@ -1,6 +1,7 @@
 {
   "name": "docusign",
   "version": "0.1.0",
+  "homepage": "https://gitname.github.io/docusign-alt",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -26,7 +27,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "browserslist": {
     "production": [
@@ -52,6 +55,7 @@
     "@typescript-eslint/parser": "^5.49.0",
     "eslint": "^8.33.0",
     "eslint-plugin-react": "^7.32.2",
+    "gh-pages": "^5.0.0",
     "husky": "^8.0.3",
     "prettier": "^2.8.3",
     "typescript": "^4.9.5"
