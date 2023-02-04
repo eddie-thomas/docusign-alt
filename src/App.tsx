@@ -17,6 +17,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import DialogDisclaimer from "./components/DialogDisclaimer";
 import Form from "./components/Form";
 
+import "./App.css";
+
 /**
  *
  * @returns JSX.Element
