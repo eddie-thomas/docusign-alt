@@ -1,4 +1,4 @@
-import { type ChangeEvent, useState } from "react";
+import { type ChangeEvent, useState, useCallback } from "react";
 import {
   Container,
   createTheme,
@@ -48,7 +48,6 @@ export default function App() {
     <ThemeProvider theme={THEME}>
       <CssBaseline />
       <SnackbarProvider maxSnack={3}>
-        <DialogDisclaimer />
         <Header mode={mode} onLightingChange={handleLightingChange} />
         <Body />
       </SnackbarProvider>
@@ -61,10 +60,29 @@ export default function App() {
  * @returns JSX.Element
  */
 function Body() {
+  const [pdf, setPdf] = useState<Uint8Array>();
+
+  /**
+   * Hanlder to close dialog
+   */
+  const handleDialogClose = () => {
+    setPdf(undefined);
+  };
+
+  /**
+   * Handler to change PDF bytes
+   */
+  const handlePdfChange = useCallback((pdf: Uint8Array) => {
+    setPdf(pdf);
+  }, []);
+
   return (
-    <Container>
-      <Form />
-    </Container>
+    <>
+      {pdf && <DialogDisclaimer pdf={pdf} onClose={handleDialogClose} />}
+      <Container>
+        <Form onPdfSubmit={handlePdfChange} />
+      </Container>
+    </>
   );
 }
 
@@ -109,11 +127,3 @@ function Header({
     </>
   );
 }
-
-// import { Document, Page } from "react-pdf/dist/esm/entry.webpack5";
-// import "react-pdf/dist/esm/Page/AnnotationLayer.css";
-// import "react-pdf/dist/esm/Page/TextLayer.css";
-/**
- * https://nodemailer.com/smtp/well-known/
- * For emailing via node-mailer
- */
