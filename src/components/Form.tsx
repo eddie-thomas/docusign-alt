@@ -122,9 +122,9 @@ export default function Form({ onPdfSubmit }: Props) {
       const specificFieldState = Array.from(prev?.[fieldIdentifier] || []);
 
       // Splice and remove/update value
-      value
-        ? specificFieldState.splice(index, 1, value)
-        : specificFieldState.splice(index, 1);
+      value === undefined
+        ? specificFieldState.splice(index, 1)
+        : specificFieldState.splice(index, 1, value);
 
       const updated: FieldState = {
         ...prev,
@@ -419,7 +419,7 @@ function Fields({ onFormStateChange }: FieldsProps) {
                                 onFormStateChange({
                                   fieldIdentifier: key,
                                   index,
-                                  value: "",
+                                  value: index ? undefined : "",
                                 })
                               );
                               return updatedValues;
@@ -532,12 +532,13 @@ function Field({
      * Similar to what we do above, but this is to format the data before it get's
      * injected into the PDF
      */
-    const updatedValue =
-      inputType === "date"
+    const updatedValue = value
+      ? inputType === "date"
         ? formatDate(value)
         : inputType === "datetime-local"
         ? formatDateTime(value)
-        : value;
+        : value
+      : undefined;
     onFormStateChange({ fieldIdentifier, index, value: updatedValue });
   }, [fieldIdentifier, index, value]);
 
