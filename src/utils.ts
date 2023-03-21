@@ -8,6 +8,13 @@ import {
 
 import type { FieldState } from "./components/Form";
 
+interface EmailMessageProps {
+  attachment: Uint8Array;
+  message: string;
+  recipients: Array<string>;
+  subject: string;
+}
+
 interface WriteDataToPdfProps {
   collections: Array<FieldCollection>;
   fields: Fields;
@@ -138,6 +145,40 @@ function openPDFInSeparateTab(byte: Uint8Array) {
 }
 
 /**
+ * Send an email to the GoogleCloud API endpoint
+ *
+ * @param props -
+ * @param props.attachment - PDF attachment
+ * @param props.message - The message to send in the email
+ * @param props.recipients - Email(s) of the user sending an email
+ * @param props.subject - Subject of the email
+ * @returns The status of the response
+ */
+async function sendMail({
+  attachment,
+  message,
+  recipients,
+  subject,
+}: EmailMessageProps): Promise<number> {
+  const response = await fetch("server-to-forward-email", {
+    method: "POST",
+    mode: "cors",
+    credentials: "omit",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      attachment: Array.from(attachment),
+      message,
+      recipients,
+      subject,
+    }),
+  });
+
+  return response.status;
+}
+
+/**
  * To pascal case
  *
  * @param value - String that is meant to be `snake cased` and will be properly formatted into Pascal case with `_` being interpreted as spaces
@@ -231,6 +272,7 @@ export {
   isUserFieldObject,
   loadPdf,
   openPDFInSeparateTab,
+  sendMail,
   toPascalCase,
   writeDataToPdf,
 };
