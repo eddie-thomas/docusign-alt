@@ -138,6 +138,7 @@ async function loadPdf(): Promise<PDFDocument> {
 }
 
 /**
+ * Opens PDF in separate tab
  *
  * @param byte - The bytes for the PDF
  */
